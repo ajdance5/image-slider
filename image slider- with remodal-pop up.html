@@ -1,0 +1,565 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+ <link rel="stylesheet" href="http://www.tagtest.cjddealer.com.au/white-label/css/main.css" />
+ <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+
+<script src="http://www.tagtest.cjddealer.com.au/js/mtvl-1.0.63.min.js"></script>
+<script src="http://www.tagtest.cjddealer.com.au/white-label/js/framework/default/vendor/media.match.min.js"></script>
+<script src="http://my.au.motortrak.com/component/cjddealer/57340b1a339d9/image-slider-w-image-pop-up.js"></script>
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script type="text/javascript">
+
+
+    
+    window.addEventListener("load", scriptToLoad, false);
+    
+    function scriptToLoad(){
+
+      
+
+            //Create preview tiles from main image
+
+            $(".full-slider-section").each(function() {              
+              var previewContent = $(this).find('.container-slide').clone().removeClass("container-slide").addClass("container-slide-preview");
+              $(this).find('.image-preview-fixed').append(previewContent);
+            });
+               //Remove caption from preview
+              $('.container-slide-preview').find('.caption').remove('.caption');
+              $(".image-preview-fixed div section").removeClass("individual-slide").addClass("individual-slide-preview");
+               $(".image-preview-fixed div section img").removeAttr("data-remodal-target");
+            
+            
+
+
+
+          
+              
+
+                 function  previewSizing() {
+              //Individual Slide Width
+                    $(".full-slider-section").each(function() {  
+                          var numberDivs = $(this).find(".container-slide-preview section").length;
+                  
+                          if (numberDivs <= 6) {
+                            var previewWidth = $(this).find(".image-preview-fixed").width();
+
+                            $(this).find(".individual-slide-preview").css("width", previewWidth / numberDivs + "px");
+                           }
+                      
+                          if (numberDivs > 6) {
+                              var previewWidth = $(this).find(".image-preview-fixed").width();
+                              var previewWidth6 = previewWidth / 6;
+                               $(this).find(".individual-slide-preview").css("width", previewWidth6 + "px");
+                              }
+                          //Preview Height
+                          var previewSlideHeight = $(this).find('.container-slide-preview').height();
+                          $(this).find(".image-preview-fixed").css("height", previewSlideHeight + "px");  
+                          });
+
+                        }
+                   
+                    
+                        function slideShowSizing() {
+                          $(".full-slider-section").each(function() {  
+                              var sliderWidth = $(this).find(".container-fixed").width();
+                         
+                              $(this).find(".individual-slide").css("width", sliderWidth);
+                             
+                              var sliderHeight = $(this).find(".container-slide").height();
+                              $(this).find(".container-fixed").css("height", sliderHeight);
+                               $(this).find('.trans-box').css("height", sliderHeight);
+                         });
+                       }
+              
+                previewSizing();
+                slideShowSizing();
+
+                
+               
+            $('.primary-button').click(function() {
+
+
+              function imageSliderClick() { 
+                 $(".full-slider-section").each(function() { 
+
+                var oneSlide = $(this).parent().parent().find(".individual-slide")[0].getBoundingClientRect().width;
+                var leftValue = $(this).parent().parent().find(".container-slide").css("left");
+                var leftValueParse = parseFloat(leftValue, 10);
+                var indivPrevWidth = $(this).parent().parent().find(".individual-slide-preview")[0].getBoundingClientRect().width;
+                var prevLeftValue = $(this).parent().parent().find(".container-slide-preview").css("left");
+                var prevLeftValueParse = parseFloat(prevLeftValue); 
+
+                previewSizing();
+                slideShowSizing();
+                
+                //Reposition main images on resize
+                var newOneSlide = $(this).find(".individual-slide")[0].getBoundingClientRect().width;
+               
+          
+
+                var oneSlideDiff = Math.abs(oneSlide/newOneSlide)
+                var newLeftValue = Math.abs(leftValueParse/oneSlideDiff);
+                $(this).find(".container-slide").css("left", - newLeftValue);
+
+                
+                //Reposition preview slides
+                //Get width of individual slide
+                var newPreviewTile = $(this).find(".individual-slide-preview")[0].getBoundingClientRect().width;
+                var prevSlideDiff = Math.abs(indivPrevWidth/newPreviewTile);
+               
+                //Get new left value
+                var newPrevLeftValue = Math.abs(prevLeftValueParse/prevSlideDiff);
+              
+                //set new left value
+              
+                $(this).find(".container-slide-preview").css("left", - newPrevLeftValue);
+       
+                
+                //Recalculate values
+                sliderWidth = $(this).find(".container-fixed")[0].getBoundingClientRect().width;  
+                oneSlide = $(this).find(".individual-slide")[0].getBoundingClientRect().width;             
+                rightStop = $(this).find(".container-slide")[0].getBoundingClientRect().width; 
+                leftValue = $(this).find(".container-slide").css("left");
+                leftValueParse = parseFloat(leftValue, 10);
+               
+
+                indivPrevWidth = $(this).find(".individual-slide-preview")[0].getBoundingClientRect().width;
+                prevLeftValue = $(this).find(".container-slide-preview").css("left");
+                prevLeftValueParse = parseFloat(prevLeftValue);
+                previewSlideWidth = $(this).find('.individual-slide-preview')[0].getBoundingClientRect().width;
+              
+              });
+            }
+
+            setTimeout(imageSliderClick, 200)
+
+            });    
+           
+
+
+            $(window).on('resize', function(){
+
+              $(".full-slider-section").each(function() { 
+
+                var oneSlide = $(this).parent().parent().find(".individual-slide")[0].getBoundingClientRect().width;
+                var leftValue = $(this).parent().parent().find(".container-slide").css("left");
+                var leftValueParse = parseFloat(leftValue, 10);
+                var indivPrevWidth = $(this).parent().parent().find(".individual-slide-preview")[0].getBoundingClientRect().width;
+                var prevLeftValue = $(this).parent().parent().find(".container-slide-preview").css("left");
+                var prevLeftValueParse = parseFloat(prevLeftValue); 
+
+                previewSizing();
+                slideShowSizing();
+                
+                //Reposition main images on resize
+                var newOneSlide = $(this).find(".individual-slide")[0].getBoundingClientRect().width;
+               
+          
+
+                var oneSlideDiff = Math.abs(oneSlide/newOneSlide)
+                var newLeftValue = Math.abs(leftValueParse/oneSlideDiff);
+                $(this).find(".container-slide").css("left", - newLeftValue);
+
+                
+                //Reposition preview slides
+                //Get width of individual slide
+                var newPreviewTile = $(this).find(".individual-slide-preview")[0].getBoundingClientRect().width;
+                var prevSlideDiff = Math.abs(indivPrevWidth/newPreviewTile);
+               
+                //Get new left value
+                var newPrevLeftValue = Math.abs(prevLeftValueParse/prevSlideDiff);
+              
+                //set new left value
+              
+                $(this).find(".container-slide-preview").css("left", - newPrevLeftValue);
+       
+                
+                //Recalculate values
+                sliderWidth = $(this).find(".container-fixed")[0].getBoundingClientRect().width;  
+                oneSlide = $(this).find(".individual-slide")[0].getBoundingClientRect().width;             
+                rightStop = $(this).find(".container-slide")[0].getBoundingClientRect().width; 
+                leftValue = $(this).find(".container-slide").css("left");
+                leftValueParse = parseFloat(leftValue, 10);
+               
+
+                indivPrevWidth = $(this).find(".individual-slide-preview")[0].getBoundingClientRect().width;
+                prevLeftValue = $(this).find(".container-slide-preview").css("left");
+                prevLeftValueParse = parseFloat(prevLeftValue);
+                previewSlideWidth = $(this).find('.individual-slide-preview')[0].getBoundingClientRect().width;
+              
+              });
+
+            });
+            
+
+
+            //Left arrow nav
+        
+              $(".nav-left").click(function() {
+                var sliderWidth = $(this).parent().parent().find(".container-fixed").width();
+                var numberDivs = $(this).parent().parent().find(".container-slide-preview section").length;
+                 var oneSlide = $(this).parent().parent().find(".individual-slide")[0].getBoundingClientRect().width;
+                var rightStop = $(this).parent().parent().find(".container-slide")[0].getBoundingClientRect().width;
+                var leftValue = $(this).parent().parent().find(".container-slide").css("left");
+                var leftValueParse = parseFloat(leftValue, 10);
+                var indivPrevWidth = $(this).parent().parent().find(".individual-slide-preview")[0].getBoundingClientRect().width;
+                var prevLeftValue = $(this).parent().parent().find(".container-slide-preview").css("left");
+                var prevLeftValueParse = parseFloat(prevLeftValue);   
+                var previewSlideWidth = $(this).parent().parent().find('.individual-slide-preview')[0].getBoundingClientRect().width;
+                  
+                if ($(":animated").length) {
+                  return false;
+                } 
+
+                else {
+                  
+
+                   if ($(this).parent().parent().find(".container-slide-preview section:nth-of-type(n+2)").hasClass("selected-img"))  
+                    {
+                      
+                       $(this).parent().parent().find(".selected-img").removeClass("selected-img").prev().addClass("selected-img");
+                       $(this).parent().parent().find(".container-slide").animate({left : '+=' + sliderWidth}, 500);
+
+                        leftValue = $(this).parent().parent().find(".container-slide").css("left");
+                        leftValueParse = parseFloat(leftValue, 10) + oneSlide;
+                        indivPrevWidth = $(this).parent().parent().find(".individual-slide-preview")[0].getBoundingClientRect().width;
+                        prevLeftValue = $(this).parent().parent().find(".container-slide-preview").css("left");
+                        prevLeftValueParse = parseFloat(prevLeftValue) + indivPrevWidth;
+                        
+                        if ($(this).parent().parent().find(".container-slide-preview section:nth-of-type(n+2)").hasClass("selected-img"))
+                          {
+                            $(this).parent().parent().find(".nav-left svg").css("opacity", "1");
+                            $(this).parent().parent().find(".nav-right svg").css("opacity", "1");
+                            $(this).parent().parent().find(".nav-arrow svg").css("cursor", "pointer");  
+                          }
+
+                          else  {
+                            $(this).parent().parent().find(".nav-left svg").css("opacity", "0.2");
+                            $(this).parent().parent().find(".nav-left svg").css("cursor", "default");
+                          }
+                     }
+ 
+                }
+
+                if (numberDivs > 6) {
+                    if ($(this).parent().parent().find(".container-slide-preview section:nth-of-type(n+4):nth-of-type(-n+" + (numberDivs - 3) + ")").hasClass("selected-img")) {
+                        
+
+                              $(this).parent().parent().find(".container-slide-preview").animate({left : "+=" + previewSlideWidth}, 500);
+                             if ($(":animated").length) {
+                              return false;
+                              } 
+
+                              else {
+                                          prevLeftValue = $(this).parent().parent().find(".container-slide-preview").css("left");
+                                           prevLeftValueParse = parseFloat(prevLeftValue) + indivPrevWidth;
+                                         }
+                          }
+
+                   if ($(this).parent().parent().find(".container-slide-preview section:nth-of-type(n+3):nth-of-type(-n+4)").hasClass("selected-img") && parseInt($(".container-slide-preview").css('left')) < 0) {
+                           $(this).parent().parent().find(".container-slide-preview").animate({left : "+=" + previewSlideWidth}, 500);
+                              
+                             if ($(":animated").length) {
+                              return false;
+                              } 
+
+                              else {
+                                          prevLeftValue = $(this).parent().parent().find(".container-slide-preview").css("left");
+                                           prevLeftValueParse = parseFloat(prevLeftValue) + indivPrevWidth;
+                                         }
+                   }       
+
+                 
+                }
+
+                prevLeftValue = $(this).parent().parent().find(".container-slide-preview").css("left");
+               prevLeftValueParse = parseFloat(prevLeftValue); 
+
+            });
+          
+            
+            $(".nav-right").each(function() {
+
+              $(this).click(function() {
+                var sliderWidth = $(this).parent().parent().find(".container-fixed").width();
+                var numberDivs = $(this).parent().parent().find(".container-slide-preview section").length;
+                var oneSlide = $(this).parent().parent().find(".individual-slide")[0].getBoundingClientRect().width;
+                var rightStop = $(this).parent().parent().find(".container-slide")[0].getBoundingClientRect().width;
+                var leftValue = $(this).parent().parent().find(".container-slide").css("left");
+                var leftValueParse = parseFloat(leftValue, 10);
+                var indivPrevWidth = $(this).parent().parent().find(".individual-slide-preview")[0].getBoundingClientRect().width;
+                var prevLeftValue = $(this).parent().parent().find(".container-slide-preview").css("left");
+                var prevLeftValueParse = parseFloat(prevLeftValue);   
+                var previewSlideWidth = $(this).parent().parent().find('.individual-slide-preview')[0].getBoundingClientRect().width;
+
+                  if ($(":animated").length) 
+                    {
+                      return false;
+                    } 
+
+                  else {
+
+                    //moving preview highlight + controlling arrow svgs
+                     if ($(this).parent().parent().find(".container-slide-preview section:nth-of-type(-n+" + (numberDivs - 1) + ")").hasClass("selected-img"))  
+                      {
+                        
+                        $(this).parent().parent().find(".selected-img").removeClass("selected-img").next().addClass("selected-img");
+                        $(this).parent().parent().find(".container-slide").filter(':not(:animated)').animate({left : '-=' + sliderWidth}, 500);
+                          
+                          
+                        
+                          leftValue = $(this).parent().parent().find(".container-slide").css("left");
+                          leftValueParse = parseFloat(leftValue, 10) - oneSlide;
+                          prevLeftValue = $(this).parent().parent().find(".container-slide-preview").css("left");
+                          prevLeftValueParse = parseFloat(prevLeftValue) - indivPrevWidth;
+                          var fullPreviewSlideWidth = $(this).parent().parent().find('.container-slide-preview')[0].getBoundingClientRect().width;
+                          var parseRightOffset = - parseInt(fullPreviewSlideWidth - (6*indivPrevWidth));
+                          var leftPlacement = parseInt($(this).parent().parent().find(".container-slide-preview").css('left'));
+
+                        if ($(this).parent().parent().find(".container-slide-preview section:nth-of-type(-n+" + (numberDivs - 1) + ")").hasClass("selected-img"))  
+                        {  
+                              $(this).parent().parent().find(".nav-left svg").css("opacity", "1");
+                              $(this).parent().parent().find(".nav-left svg").css("opacity", "1");
+                              $(this).parent().parent().find(".nav-arrow svg").css("cursor", "pointer");
+                        }
+
+                        else   
+                        {
+                                $(this).parent().parent().find(".nav-right svg").css("opacity", "0.4");
+                                $(this).parent().parent().find(".nav-right svg").css("cursor", "default");
+                         }
+                           
+                     }
+
+                 
+
+                  } 
+
+                   if (numberDivs > 6) {
+                         if ($(this).parent().parent().find(".container-slide-preview section:nth-of-type(n+4):nth-of-type(-n+" + (numberDivs - 3) + ")").hasClass("selected-img")) 
+                         {     
+                              $(this).parent().parent().find(".container-slide-preview").animate({left : "-=" + previewSlideWidth}, 500);
+                              
+                               if ($(":animated").length) {
+                              return false;
+                            } 
+
+                            else {
+                                        prevLeftValue = $(this).parent().parent().find(".container-slide-preview").css("left");
+                                         prevLeftValueParse = parseFloat(prevLeftValue) + indivPrevWidth;
+                                       }
+                         }
+
+                          if ($(this).parent().parent().find(".container-slide-preview section:nth-of-type(n+" + (numberDivs - 2) + ")").hasClass("selected-img") && leftPlacement > parseRightOffset) {
+                              
+                              $(this).parent().parent().find(".container-slide-preview").animate({left : "-=" + previewSlideWidth}, 500);
+                              
+                               if ($(":animated").length) {
+                              return false;
+                            } 
+
+                            else {
+                                        prevLeftValue = $(this).parent().parent().find(".container-slide-preview").css("left");
+                                         prevLeftValueParse = parseFloat(prevLeftValue) + indivPrevWidth;
+                                       }
+                          }
+
+                     
+                   }
+                  prevLeftValue = $(".container-slide-preview").css("left");
+                  prevLeftValueParse = parseFloat(prevLeftValue);  
+                });
+             });
+          
+          function positionRemodal() {
+
+            newRemodalOneSlide = $('.image-slider-remodal').find('.container-fixed').width();
+          }
+
+      
+
+        $('.individual-slide img').click(function() {
+
+            var remodalLeftValue = $(this).parent().parent().css("left");
+            var remodalLeftValueParse = parseFloat(remodalLeftValue); 
+            var remodalOneSlide = $(this).parent().parent().find('.individual-slide')[0].getBoundingClientRect().width;
+            $('.image-slider-remodal .full-slider-section').remove();
+            $(this).parent().parent().parent().parent().parent().clone(true, true).appendTo('.image-slider-remodal');
+            
+            setTimeout(previewSizing, 100);
+            setTimeout(slideShowSizing, 100);
+            
+            var newRemodalOneSlide = $('.image-slider-remodal').find('.individual-slide').width();
+            var remodalOneSlideDiff = Math.abs(remodalOneSlide/newRemodalOneSlide);
+            var newRemodalLeftValue = Math.abs(remodalLeftValueParse/remodalOneSlideDiff);
+
+            function remodalNewSize() {newRemodalOneSlide = $('.image-slider-remodal').find('.individual-slide').width();}
+            function remodalDiff() {remodalOneSlideDiff = Math.abs(remodalOneSlide/newRemodalOneSlide);}
+            function remodalLeft() {newRemodalLeftValue = Math.abs(remodalLeftValueParse/remodalOneSlideDiff);}
+            setTimeout(remodalNewSize, 100);
+            setTimeout(remodalDiff, 100);
+            setTimeout(remodalLeft, 100);
+           
+
+            function changeLeft() {
+                $('.image-slider-remodal').find(".container-slide").css("left", - newRemodalLeftValue);
+            }
+            
+            setTimeout(changeLeft, 100);
+            
+            console.log(remodalLeftValue);/*Correct*/
+            console.log(remodalLeftValueParse);/*Correct*/
+            console.log(remodalOneSlide);/*Correct*/
+
+            console.log(newRemodalOneSlide);
+            console.log(newRemodalLeftValue);
+            
+          
+        });
+
+      
+
+
+  };  
+   
+</script> 
+
+<style type="text/css">
+
+
+
+
+  /*Slider Style*/
+  .slider-header {font-size:1.5em;text-align: center;}
+  .container-fixed {white-space:nowrap;position:relative;overflow:hidden;padding:0;border:4px solid #5e5e5e;}
+  .container-slide {position:absolute;top:0;left:0;}
+  .individual-slide {margin: 0 auto;display:inline-block;position: relative;}
+  .individual-slide h2 {text-align: center;    border-top: 1px solid #7B7B7B;border-bottom: 1px solid #7B7B7B;}
+  .individual-slide img {width:100%;}
+  .individual-slide div img:nth-of-type(2) {width: 65%; margin: 0 auto; display: block;}
+  .individual-slide nav div {padding:2%;}
+  .caption {position:absolute;color:#ffffff;padding:7px;background-color: rgba(71, 71, 71, 0.7);bottom:0;left:0;width:100%;    padding: 10px 10px 15px;}
+  .caption p {margin:0;white-space: initial;}
+  .full-slider-section svg {width: 100%;height:100%;margin: 0 auto 0;display: block;fill:#666666;}
+  .ancap-info { font-size: 1.2em; padding: 3%;font-weight: 800;}
+  .ancap-info span {display:block;font-weight: 500}
+  .nav-arrow {z-index:2; display: -ms-flexbox;display: -webkit-flex; display: flex;padding:5px; -webkit-align-items: center;-ms-flex-align: center; align-items: center;}
+  .nav-right svg:hover {cursor:pointer;}
+  .nav-left svg {opacity:.4;}
+  .ancap-flexbox { display: -ms-flexbox;display: -webkit-flex;display: flex;}
+  .clearboth {clear:both;}
+
+  
+  .container-slide-preview {position:absolute;top:0;left:0;}
+  
+  .individual-slide-preview img {width:100%;opacity:.5;display:block;}
+  .selected-img img {opacity:1;}
+  .preview-slider {display: -ms-flexbox;display: -webkit-flex;display: flex;}
+  .individual-slide-preview {display:inline-block;}
+
+  .image-preview-fixed {padding:0;border:4px solid #5e5e5e;border-top:none;white-space:nowrap;position:relative;overflow:hidden}
+
+  .embed-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; } 
+  .embed-container iframe, 
+  .embed-container object, .embed-container embed { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+  .ie-margin svg {margin:0 auto}
+  .trans1 {position:absolute;top:0;left:0;}
+  .trans2 {position:absolute;top:0;left:50%;}
+  .trans-box {cursor: pointer;}
+  .image-slider-remodal img {width:100%;}
+
+
+  @media screen and (max-width:642px) {
+    
+    
+    .column-no-padding {padding-left: 0;padding-right:0;}
+    .full-slider-section svg {width:100%;}
+    .caption {display:none;}
+    /*.preview-slider {float:left;}*/
+    .nav-arrow {background-color: rgba(255,255,255,0.75);}
+    .ie-margin svg {margin:-100 auto 0;}
+
+  }
+</style>
+
+ <div style="max-width:700px:;height:100;float:left"> 
+ <section class="full-slider-section ">
+ 
+     <div class="ancap-flexbox">
+         <div class="small-1 column column-no-padding nav-arrow nav-left ">
+           <!--[if IE]><div class="ie-margin"><![endif]-->
+           <svg viewBox="0 0 300.3 580.4" >
+             <polygon id="XMLID_4_" class="st0" points="282.7,1.2 282.8,77.4 77.6,288.4 283.5,497.7 283.6,579.2 0.5,291.3 "/>
+           </svg>
+           <!--[if IE]><div><![endif]-->
+         </div>
+      
+         <div class="container-fixed small-10 column">
+            
+           <div class="container-slide"><!--
+             --><section class="individual-slide selected-img">
+               <img alt="individual pic" data-remodal-target="image-slider-remodal"  src="http://cmsimages.motortrak.com/siteasset/cjddealer/5701b11856084/jeep-grand-cherokee-overland">
+               
+             </section><!--
+             --><section class="individual-slide">
+                 <img alt="individual pic" data-remodal-target="image-slider-remodal"  src="http://cmsimages.motortrak.com/siteasset/cjddealer/5701b11d40bab/overrland%20white.png">
+                 
+             </section><!--
+             --><section class="individual-slide">
+                 <img alt="individual pic" data-remodal-target="image-slider-remodal"  src="http://cmsimages.motortrak.com/siteasset/cjddealer/5701b11ac23c3/overland%20engine.png">
+                 
+             </section><!--
+              --><section class="individual-slide">
+               <img alt="individual pic" data-remodal-target="image-slider-remodal"  src="http://cmsimages.motortrak.com/siteasset/cjddealer/5701b11856084/jeep-grand-cherokee-overland">
+               
+             </section><!--
+             --><section class="individual-slide">
+                 <img alt="individual pic" data-remodal-target="image-slider-remodal" src="http://cmsimages.motortrak.com/siteasset/cjddealer/5701b11d40bab/overrland%20white.png">
+                 
+             </section><!--
+             --><section class="individual-slide">
+                 <img alt="individual pic" data-remodal-target="image-slider-remodal"  src="http://cmsimages.motortrak.com/siteasset/cjddealer/5701b11ac23c3/overland%20engine.png">
+                 
+             </section><!--
+              --><section class="individual-slide">
+               <img alt="individual pic" data-remodal-target="image-slider-remodal"  src="http://cmsimages.motortrak.com/siteasset/cjddealer/5701b11856084/jeep-grand-cherokee-overland">
+               
+             </section><!--
+             --><section class="individual-slide">
+                 <img alt="individual pic" data-remodal-target="image-slider-remodal"  src="http://cmsimages.motortrak.com/siteasset/cjddealer/5701b11d40bab/overrland%20white.png">
+                 
+             </section><!--
+             --><section class="individual-slide">
+                 <img alt="individual pic" data-remodal-target="image-slider-remodal"  src="http://cmsimages.motortrak.com/siteasset/cjddealer/5701b11ac23c3/overland%20engine.png">
+                 
+             </section><!--
+              --></div>
+           
+         </div>
+ 
+ 
+         <div class="small-1 column column-no-padding nav-arrow nav-right">
+         <!--[if IE]><div class="ie-margin"><![endif]-->
+           <svg viewBox="0 0 300.3 580.4">
+             <polygon id="XMLID_4_" class="st0" points="18.4,10.7 18.3,87 223.5,297.9 17.6,507.2 17.5,588.7 300.6,300.8 "/>
+           </svg>
+           <!--[if IE]></div><![endif]-->
+         </div> 
+         
+     </div>
+     <div class="clearboth"></div>
+     <div class="preview-slider">
+      
+ 
+         <div class="small-10 small-offset-1 column image-preview-fixed">
+           
+           <div class="clearboth"></div>
+         </div>
+  
+     </div>
+     
+   </section>
+
+   <div class="remodal image-slider-remodal" data-remodal-id="image-slider-remodal" style="min-width:900px;">
+   </div>
+ 
+ </div>
